@@ -1,0 +1,22 @@
+name: Auto Sync Upstream
+
+on:
+  schedule:
+    # 每隔 12 小时自动检查并同步上游仓库
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+
+      - name: Sync Upstream
+        uses: aadvance38/Github-Sync-Fork-Action@v1.0.3
+        with:
+          upstream: mtvpls/MoonTVPlus
+          upstream_branch: main
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
